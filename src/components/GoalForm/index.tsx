@@ -214,7 +214,7 @@ export function GoalForm({
 
         <Separator />
 
-        <div className="flex gap-3">
+        <div className="flex flex-col sm:flex-row gap-3">
           <Button
             onClick={onCalculate}
             className="flex-1 gap-2 font-semibold bg-[#da3832] hover:bg-[#b92c27] text-white shadow-md"

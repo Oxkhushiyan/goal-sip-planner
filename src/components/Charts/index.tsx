@@ -89,7 +89,7 @@ export function Charts({ breakdown, result }: ChartsProps) {
 
 
   return (
-    <Card className="border-border/50 bg-card/80 backdrop-blur-sm shadow-lg">
+    <Card className="border-border/50 bg-card/80 backdrop-blur-sm shadow-lg w-full min-w-0 overflow-hidden">
       <CardHeader className="pb-2">
         <CardTitle className="text-lg">Corpus Growth Visualization</CardTitle>
       </CardHeader>
@@ -104,9 +104,9 @@ export function Charts({ breakdown, result }: ChartsProps) {
         </p>
 
         <Tabs defaultValue="bar" className="w-full">
-          <TabsList className="mb-4 w-full grid grid-cols-2">
-            <TabsTrigger value="bar" className="flex-1">Growth Over Time</TabsTrigger>
-            <TabsTrigger value="pie" className="flex-1">Composition</TabsTrigger>
+          <TabsList className="mb-4 w-full flex">
+            <TabsTrigger value="bar" className="flex-1 text-xs sm:text-sm whitespace-normal text-center">Growth</TabsTrigger>
+            <TabsTrigger value="pie" className="flex-1 text-xs sm:text-sm whitespace-normal text-center">Composition</TabsTrigger>
           </TabsList>
 
           <TabsContent value="bar">

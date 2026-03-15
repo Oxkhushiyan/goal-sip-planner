@@ -59,7 +59,7 @@ function StatBox({
         </p>
       </div>
       <p
-        className={`text-2xl font-bold tabular-nums ${
+        className={`text-xl sm:text-2xl font-bold tabular-nums ${
           highlight ? "text-white" : "text-foreground"
         }`}
         aria-live="polite"
@@ -127,8 +127,8 @@ export function ResultCard({ result, inputs }: ResultCardProps) {
       )}
 
       {/* Stats Grid */}
-      <div className="grid grid-cols-2 gap-3">
-        <div className="col-span-2">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <div className="col-span-1 sm:col-span-2">
           <StatBox
             icon={Hash}
             label="Required Monthly SIP"

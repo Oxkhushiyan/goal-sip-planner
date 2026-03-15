@@ -28,7 +28,7 @@ export function BreakdownTable({ breakdown }: BreakdownTableProps) {
   if (breakdown.length === 0) return null;
 
   return (
-    <Card className="border-border/50 bg-card/80 backdrop-blur-sm shadow-lg">
+    <Card className="border-border/50 bg-card/80 backdrop-blur-sm shadow-lg w-full min-w-0 overflow-hidden">
       <CardHeader className="pb-3">
         <div className="flex items-center justify-between">
           <CardTitle className="text-lg">Year-by-Year Breakdown</CardTitle>

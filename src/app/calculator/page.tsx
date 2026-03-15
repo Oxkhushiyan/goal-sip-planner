@@ -76,9 +76,9 @@ export default function CalculatorPage() {
         </div>
 
         {/* Main layout: left form, right results */}
-        <div className="grid gap-6 lg:grid-cols-[420px_1fr]">
+        <div className="grid gap-6 lg:grid-cols-[420px_1fr] w-full">
           {/* Left: Form */}
-          <div className="space-y-4">
+          <div className="space-y-4 min-w-0 w-full">
             <GoalForm
               inputs={inputs}
               validationErrors={validationErrors}
@@ -92,7 +92,7 @@ export default function CalculatorPage() {
 
           {/* Right: Results */}
           {result ? (
-            <div className="space-y-6">
+            <div className="space-y-6 min-w-0 w-full">
               <ResultCard result={result} inputs={inputs} />
 
               {breakdown.length > 0 && (
