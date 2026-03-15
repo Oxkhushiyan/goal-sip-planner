@@ -2,7 +2,6 @@ import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Disclaimer } from "@/components/Disclaimer";
 import {
-  TrendingUp,
   Calculator,
   BarChart2,
   FileDown,
@@ -37,7 +36,7 @@ const FEATURES = [
     desc: "Results update instantly as you adjust sliders or type values.",
   },
   {
-    icon: TrendingUp,
+    icon: BarChart2,
     title: "Inflation-Aware",
     desc: "Accounts for purchasing power erosion to show the true future goal value.",
   },
@@ -47,16 +46,12 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950">
       {/* Hero */}
-      <section className="relative flex flex-col items-center justify-center px-4 pt-24 pb-16 text-center overflow-hidden">
-        {/* Glow effects */}
-        <div className="pointer-events-none absolute inset-0 -z-10">
-          <div className="absolute left-1/2 top-0 h-96 w-96 -translate-x-1/2 rounded-full bg-blue-600/15 blur-3xl" />
-          <div className="absolute left-1/4 bottom-0 h-64 w-64 rounded-full bg-indigo-600/10 blur-3xl" />
-        </div>
+      <section className="relative flex flex-col items-center justify-center px-4 pt-24 pb-16 text-center">
+
 
         <Badge
           variant="outline"
-          className="mb-6 gap-1.5 border-blue-500/50 text-blue-400 px-4 py-1.5 text-sm"
+          className="mb-6 gap-1.5 border-[#919090]/50 text-[#919090] px-4 py-1.5 text-sm"
         >
           <ShieldCheck className="h-3.5 w-3.5" />
           Educational Tool · Not Financial Advice
@@ -64,22 +59,22 @@ export default function Home() {
 
         <h1 className="max-w-3xl text-5xl font-bold tracking-tight text-white sm:text-6xl lg:text-7xl">
           Goal-Based{" "}
-          <span className="bg-gradient-to-r from-blue-400 to-indigo-400 bg-clip-text text-transparent">
+          <span className="text-[#224c87]">
             SIP Planner
           </span>
         </h1>
 
         <p className="mt-6 max-w-2xl text-lg text-slate-400 leading-relaxed">
           Estimate the monthly SIP investment you need to reach any financial goal,
-          factoring in <strong className="text-slate-300">inflation</strong> and{" "}
-          <strong className="text-slate-300">assumed returns</strong>. All assumptions
+          factoring in <strong className="text-foreground">inflation</strong> and{" "}
+          <strong className="text-foreground">assumed returns</strong>. All assumptions
           are fully adjustable.
         </p>
 
         <div className="mt-10 flex flex-col sm:flex-row gap-4 items-center">
           <Link
             href="/calculator"
-            className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-8 py-3 text-base font-semibold text-white shadow-lg shadow-blue-600/30 hover:bg-blue-700 transition-colors"
+            className="inline-flex items-center gap-2 rounded-lg bg-[#da3832] px-8 py-3 text-base font-semibold text-white shadow-lg hover:bg-[#b92c27] transition-colors"
           >
             <Calculator className="h-5 w-5" />
             Open Calculator
@@ -95,7 +90,7 @@ export default function Home() {
         {/* Stats row */}
         <div className="mt-16 grid grid-cols-3 gap-8 text-center sm:gap-16">
           {[
-            { value: "₹0", label: "Data stored" },
+            { value: "0 Bytes", label: "Data stored" },
             { value: "100%", label: "Client-side" },
             { value: "WCAG 2.1", label: "Accessible" },
           ].map((s) => (
@@ -116,10 +111,10 @@ export default function Home() {
           {FEATURES.map((f) => (
             <div
               key={f.title}
-              className="rounded-xl border border-slate-800 bg-slate-900/60 p-6 backdrop-blur-sm hover:border-blue-500/40 transition-colors group"
+              className="rounded-xl border border-border bg-card p-6 shadow-sm hover:border-[#919090]/40 transition-colors group"
             >
-              <div className="mb-4 inline-flex rounded-lg bg-blue-600/10 p-3 group-hover:bg-blue-600/20 transition-colors">
-                <f.icon className="h-5 w-5 text-blue-400" />
+              <div className="mb-4 inline-flex rounded-lg bg-muted p-3 group-hover:bg-[#919090]/20 transition-colors">
+                <f.icon className="h-5 w-5 text-[#919090]" />
               </div>
               <h3 className="mb-2 font-semibold text-white">{f.title}</h3>
               <p className="text-sm text-slate-400 leading-relaxed">{f.desc}</p>
@@ -130,7 +125,7 @@ export default function Home() {
         <div className="mt-12 text-center">
           <Link
             href="/calculator"
-            className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-8 py-3 text-base font-semibold text-white shadow-lg shadow-blue-600/30 hover:bg-blue-700 transition-colors"
+            className="inline-flex items-center gap-2 rounded-lg bg-[#da3832] px-8 py-3 text-base font-semibold text-white shadow-lg hover:bg-[#b92c27] transition-colors"
           >
             <Calculator className="h-5 w-5" />
             Start Planning

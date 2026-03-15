@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Separator } from "@/components/ui/separator";
 
-import { TrendingUp, Target, PiggyBank, AlertTriangle, Info,  Banknote } from "lucide-react";
+import { AlertTriangle, Info, CircleDot, Layers, Hash, AlignLeft } from "lucide-react";
 import type { CalculatorResult, CalculatorInputs } from "@/types";
 
 interface ResultCardProps {
@@ -38,7 +38,7 @@ function StatBox({
     <div
       className={`rounded-xl p-4 transition-all ${
         highlight
-          ? "bg-gradient-to-br from-blue-600 to-indigo-700 text-white shadow-lg shadow-blue-500/20"
+          ? "bg-[#224c87] text-white shadow-lg"
           : "bg-muted/50 border border-border/50"
       }`}
     >
@@ -52,7 +52,7 @@ function StatBox({
         </div>
         <p
           className={`text-xs font-semibold uppercase tracking-wider ${
-            highlight ? "text-blue-100" : "text-muted-foreground"
+            highlight ? "text-slate-200" : "text-muted-foreground"
           }`}
         >
           {label}
@@ -67,7 +67,7 @@ function StatBox({
         {value}
       </p>
       {sub && (
-        <p className={`mt-1 text-xs ${highlight ? "text-blue-200" : "text-muted-foreground"}`}>
+        <p className={`mt-1 text-xs ${highlight ? "text-slate-300" : "text-muted-foreground"}`}>
           {sub}
         </p>
       )}
@@ -97,19 +97,19 @@ export function ResultCard({ result, inputs }: ResultCardProps) {
         </Alert>
       )}
       {hasInflationWarning && (
-        <Alert className="border-amber-200 bg-amber-50 text-amber-800 dark:border-amber-800 dark:bg-amber-950/30 dark:text-amber-300">
-          <AlertTriangle className="h-4 w-4 text-amber-600" />
-          <AlertTitle className="text-amber-800 dark:text-amber-300">
+        <Alert className="border-[#919090]/50 bg-background text-foreground dark:bg-muted/30">
+          <AlertTriangle className="h-4 w-4 text-[#da3832]" />
+          <AlertTitle className="text-foreground">
             Inflation ≥ Expected Return
           </AlertTitle>
-          <AlertDescription className="text-amber-700 dark:text-amber-400">
+          <AlertDescription className="text-muted-foreground">
             Your assumed inflation rate ({(inputs.inflationRate * 100).toFixed(1)}%) is greater than or equal to the expected return ({(inputs.expectedReturn * 100).toFixed(1)}%). In real terms, gains may be minimal or negative.
           </AlertDescription>
         </Alert>
       )}
       {hasYearsWarning && (
-        <Alert className="border-blue-200 bg-blue-50 dark:border-blue-800 dark:bg-blue-950/30">
-          <Info className="h-4 w-4 text-blue-600" />
+        <Alert className="border-[#919090]/50 bg-background dark:bg-muted/30">
+          <Info className="h-4 w-4 text-[#224c87]" />
           <AlertTitle>Years set to 0</AlertTitle>
           <AlertDescription>
             With 0 years to goal, no SIP is required — you need the full amount immediately.
@@ -117,8 +117,8 @@ export function ResultCard({ result, inputs }: ResultCardProps) {
         </Alert>
       )}
       {hasReturnZeroWarning && (
-        <Alert className="border-blue-200 bg-blue-50 dark:border-blue-800 dark:bg-blue-950/30">
-          <Info className="h-4 w-4 text-blue-600" />
+        <Alert className="border-[#919090]/50 bg-background dark:bg-muted/30">
+          <Info className="h-4 w-4 text-[#224c87]" />
           <AlertTitle>Return set to 0%</AlertTitle>
           <AlertDescription>
             Using simple division (FV ÷ months) since expected return is 0%.
@@ -130,7 +130,7 @@ export function ResultCard({ result, inputs }: ResultCardProps) {
       <div className="grid grid-cols-2 gap-3">
         <div className="col-span-2">
           <StatBox
-            icon={TrendingUp}
+            icon={Hash}
             label="Required Monthly SIP"
             value={fmt(result.monthlySIP)}
             sub={`For ${inputs.yearsToGoal} year${inputs.yearsToGoal !== 1 ? "s" : ""} · ${(inputs.expectedReturn * 100).toFixed(1)}% p.a.`}
@@ -138,19 +138,19 @@ export function ResultCard({ result, inputs }: ResultCardProps) {
           />
         </div>
         <StatBox
-          icon={Target}
+          icon={CircleDot}
           label="Future Goal Value"
           value={fmt(result.futureValue)}
           sub={`After ${(inputs.inflationRate * 100).toFixed(1)}% inflation`}
         />
         <StatBox
-          icon={PiggyBank}
+          icon={Layers}
           label="Total Invested"
           value={fmt(result.totalInvested)}
           sub="Sum of all SIPs"
         />
         <StatBox
-          icon={Banknote}
+          icon={AlignLeft}
           label="Est. Returns"
           value={fmt(Math.max(0, result.estimatedReturns))}
           sub="Corpus − Invested"
@@ -167,13 +167,13 @@ export function ResultCard({ result, inputs }: ResultCardProps) {
             </div>
             <div className="relative h-3 rounded-full bg-muted overflow-hidden">
               <div
-                className="absolute left-0 top-0 h-full rounded-full bg-blue-600 transition-all duration-700"
+                className="absolute left-0 top-0 h-full rounded-full bg-[#224c87] transition-all duration-700"
                 style={{ width: `${investedPct}%` }}
                 role="img"
                 aria-label={`${investedPct.toFixed(0)}% of corpus is invested amount`}
               />
               <div
-                className="absolute top-0 h-full rounded-full bg-emerald-500 transition-all duration-700"
+                className="absolute top-0 h-full rounded-full bg-[#919090] transition-all duration-700"
                 style={{ left: `${investedPct}%`, width: `${returnsPct}%` }}
                 role="img"
                 aria-label={`${returnsPct.toFixed(0)}% of corpus is returns`}
@@ -181,11 +181,11 @@ export function ResultCard({ result, inputs }: ResultCardProps) {
             </div>
             <div className="flex gap-4 text-xs">
               <span className="flex items-center gap-1.5 text-muted-foreground">
-                <span className="h-2 w-2 rounded-full bg-blue-600 inline-block" />
+                <span className="h-2 w-2 rounded-full bg-[#224c87] inline-block" />
                 Invested
               </span>
               <span className="flex items-center gap-1.5 text-muted-foreground">
-                <span className="h-2 w-2 rounded-full bg-emerald-500 inline-block" />
+                <span className="h-2 w-2 rounded-full bg-[#919090] inline-block" />
                 Returns
               </span>
             </div>

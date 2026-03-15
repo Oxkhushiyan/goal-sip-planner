@@ -65,13 +65,13 @@ export function BreakdownTable({ breakdown }: BreakdownTableProps) {
                   <TableCell className="text-right tabular-nums font-medium">
                     {fmt(row.monthlySIP)}
                   </TableCell>
-                  <TableCell className="text-right tabular-nums text-blue-600 dark:text-blue-400">
+                  <TableCell className="text-right tabular-nums text-[#224c87] dark:text-[#224c87]">
                     {fmt(row.totalInvested)}
                   </TableCell>
                   <TableCell className="text-right tabular-nums font-semibold">
                     {fmt(row.corpusValue)}
                   </TableCell>
-                  <TableCell className="text-right tabular-nums text-emerald-600 dark:text-emerald-400">
+                  <TableCell className="text-right tabular-nums text-[#919090] dark:text-[#919090]">
                     {fmt(Math.max(0, row.returns))}
                   </TableCell>
                 </TableRow>

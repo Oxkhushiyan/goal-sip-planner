@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { RefreshCw, Calculator, Info } from "lucide-react";
+import { RefreshCw, Info } from "lucide-react";
 import type { CalculatorInputs, ValidationError } from "@/types";
 
 interface GoalFormProps {
@@ -172,7 +172,7 @@ export function GoalForm({
                 aria-label={field.label}
                 className="relative flex w-full touch-none items-center cursor-pointer py-1"
               >
-                <SliderPrimitive.Track className="relative h-1.5 w-full grow overflow-hidden rounded-full bg-slate-700">
+                <SliderPrimitive.Track className="relative h-1.5 w-full grow overflow-hidden rounded-full bg-muted">
                   <SliderPrimitive.Range className="absolute h-full bg-primary rounded-full" />
                 </SliderPrimitive.Track>
                 <SliderPrimitive.Thumb className="block h-4 w-4 rounded-full border-2 border-primary bg-white shadow-md ring-ring/50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50" />
@@ -217,11 +217,10 @@ export function GoalForm({
         <div className="flex gap-3">
           <Button
             onClick={onCalculate}
-            className="flex-1 gap-2 font-semibold"
+            className="flex-1 gap-2 font-semibold bg-[#da3832] hover:bg-[#b92c27] text-white shadow-md"
             size="lg"
             aria-label="Calculate required SIP"
           >
-            <Calculator className="h-4 w-4" />
             Calculate SIP
           </Button>
           {hasCalculated && (

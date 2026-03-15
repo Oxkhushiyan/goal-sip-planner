@@ -5,14 +5,22 @@ import {
   Text,
   View,
   StyleSheet,
+  Font,
 } from "@react-pdf/renderer";
 import type { CalculatorInputs, CalculatorResult, BreakdownRow } from "@/types";
 import { DISCLAIMER_TEXT } from "@/lib/disclaimer";
 
-// Use built-in Helvetica (no external font embedding needed for Vercel)
+Font.register({
+  family: "Roboto",
+  fonts: [
+    { src: "https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/fonts/Roboto/Roboto-Regular.ttf", fontWeight: "normal" },
+    { src: "https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/fonts/Roboto/Roboto-Medium.ttf", fontWeight: "bold" },
+  ]
+});
+
 const styles = StyleSheet.create({
   page: {
-    fontFamily: "Helvetica",
+    fontFamily: "Roboto",
     fontSize: 10,
     padding: 40,
     backgroundColor: "#ffffff",
@@ -25,7 +33,8 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 20,
-    fontFamily: "Helvetica-Bold",
+    fontFamily: "Roboto",
+    fontWeight: "bold",
     color: "#1e3a8a",
     marginBottom: 4,
   },
@@ -38,7 +47,8 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     fontSize: 12,
-    fontFamily: "Helvetica-Bold",
+    fontFamily: "Roboto",
+    fontWeight: "bold",
     color: "#1e3a8a",
     marginBottom: 8,
     borderBottom: "1pt solid #e2e8f0",
@@ -54,7 +64,8 @@ const styles = StyleSheet.create({
   },
   value: {
     width: "45%",
-    fontFamily: "Helvetica-Bold",
+    fontFamily: "Roboto",
+    fontWeight: "bold",
     color: "#0f172a",
   },
   highlight: {
@@ -70,7 +81,8 @@ const styles = StyleSheet.create({
   },
   highlightValue: {
     fontSize: 22,
-    fontFamily: "Helvetica-Bold",
+    fontFamily: "Roboto",
+    fontWeight: "bold",
     color: "#1e3a8a",
   },
   tableHeader: {
@@ -80,7 +92,8 @@ const styles = StyleSheet.create({
   },
   tableHeaderCell: {
     color: "#ffffff",
-    fontFamily: "Helvetica-Bold",
+    fontFamily: "Roboto",
+    fontWeight: "bold",
     fontSize: 8,
   },
   tableRow: {
@@ -111,7 +124,8 @@ const styles = StyleSheet.create({
     borderRadius: 4,
   },
   disclaimerTitle: {
-    fontFamily: "Helvetica-Bold",
+    fontFamily: "Roboto",
+    fontWeight: "bold",
     fontSize: 8,
     color: "#854d0e",
     marginBottom: 4,

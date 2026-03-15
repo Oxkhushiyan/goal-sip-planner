@@ -68,7 +68,7 @@ function PieTooltip({ active, payload }: any) {
   );
 }
 
-const PIE_COLORS = ["#3b82f6", "#10b981"];
+const PIE_COLORS = ["#224c87", "#919090"];
 
 
 export function Charts({ breakdown, result }: ChartsProps) {
@@ -127,8 +127,8 @@ export function Charts({ breakdown, result }: ChartsProps) {
                   />
                   <Tooltip content={<CustomTooltip />} />
                   <Legend wrapperStyle={{ fontSize: 12 }} />
-                  <Bar dataKey="Total Invested" stackId="a" fill="#3b82f6" />
-                  <Bar dataKey="Returns" stackId="a" fill="#10b981" radius={[4, 4, 0, 0]} />
+                  <Bar dataKey="Total Invested" stackId="a" fill="#224c87" />
+                  <Bar dataKey="Returns" stackId="a" fill="#919090" radius={[4, 4, 0, 0]} />
                 </BarChart>
               </ResponsiveContainer>
             </div>
@@ -157,11 +157,11 @@ export function Charts({ breakdown, result }: ChartsProps) {
             </div>
             <div className="mt-2 flex justify-center gap-6 text-xs">
               <span className="flex items-center gap-1.5">
-                <span className="h-3 w-3 rounded-sm bg-blue-500 inline-block" />
+                <span className="h-3 w-3 rounded-sm bg-[#224c87] inline-block" />
                 Invested ({((result.totalInvested / result.totalCorpus) * 100).toFixed(1)}%)
               </span>
               <span className="flex items-center gap-1.5">
-                <span className="h-3 w-3 rounded-sm bg-emerald-500 inline-block" />
+                <span className="h-3 w-3 rounded-sm bg-[#919090] inline-block" />
                 Returns ({(Math.max(0, result.estimatedReturns / result.totalCorpus) * 100).toFixed(1)}%)
               </span>
             </div>
