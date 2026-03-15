@@ -9,8 +9,8 @@ interface DisclaimerProps {
 export function Disclaimer({ compact = false, className = "" }: DisclaimerProps) {
   if (compact) {
     return (
-      <p className={`text-xs text-amber-700 dark:text-amber-400 ${className}`}>
-        <span className="font-semibold">Disclaimer: </span>
+      <p className={`text-xs text-muted-foreground ${className}`}>
+        <span className="font-semibold text-foreground">Disclaimer: </span>
         {DISCLAIMER_TEXT}
       </p>
     );
@@ -18,20 +18,20 @@ export function Disclaimer({ compact = false, className = "" }: DisclaimerProps)
 
   return (
     <div
-      className={`rounded-lg border border-amber-200 bg-amber-50 p-4 dark:border-amber-800 dark:bg-amber-950/30 ${className}`}
+      className={`rounded-lg border border-border bg-muted/30 p-4 ${className}`}
       role="note"
       aria-label="Important disclaimer"
     >
       <div className="flex items-start gap-3">
         <AlertCircle
-          className="mt-0.5 h-4 w-4 flex-shrink-0 text-amber-600 dark:text-amber-400"
+          className="mt-0.5 h-4 w-4 flex-shrink-0 text-muted-foreground"
           aria-hidden="true"
         />
         <div>
-          <p className="mb-1 text-xs font-bold uppercase tracking-wide text-amber-700 dark:text-amber-400">
+          <p className="mb-1 text-xs font-bold uppercase tracking-wide text-foreground">
             Important Disclaimer
           </p>
-          <p className="text-xs leading-relaxed text-amber-800 dark:text-amber-300">
+          <p className="text-xs leading-relaxed text-muted-foreground">
             {DISCLAIMER_TEXT}
           </p>
         </div>

@@ -14,6 +14,7 @@ import type { BreakdownRow } from "@/types";
 
 interface BreakdownTableProps {
   breakdown: BreakdownRow[];
+  inflationRate: number;
 }
 
 function fmt(n: number) {
@@ -24,7 +25,7 @@ function fmt(n: number) {
   }).format(n);
 }
 
-export function BreakdownTable({ breakdown }: BreakdownTableProps) {
+export function BreakdownTable({ breakdown, inflationRate }: BreakdownTableProps) {
   if (breakdown.length === 0) return null;
 
   return (
@@ -47,6 +48,7 @@ export function BreakdownTable({ breakdown }: BreakdownTableProps) {
                 <TableHead className="text-right">Total Invested</TableHead>
                 <TableHead className="text-right">Corpus Value</TableHead>
                 <TableHead className="text-right">Returns</TableHead>
+                <TableHead className="text-right">Inflation-Adjusted Corpus</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -73,6 +75,9 @@ export function BreakdownTable({ breakdown }: BreakdownTableProps) {
                   </TableCell>
                   <TableCell className="text-right tabular-nums text-[#919090] dark:text-[#919090]">
                     {fmt(Math.max(0, row.returns))}
+                  </TableCell>
+                  <TableCell className="text-right tabular-nums text-foreground font-medium bg-muted/10">
+                    {fmt(row.corpusValue / Math.pow(1 + inflationRate, row.year))}
                   </TableCell>
                 </TableRow>
               ))}

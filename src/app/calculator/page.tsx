@@ -11,7 +11,9 @@ import { BreakdownTable } from "@/components/BreakdownTable";
 import { Disclaimer } from "@/components/Disclaimer";
 import { PDFDownloadButton } from "@/components/PDFDownloadButton";
 import { useCalculator } from "@/hooks/useCalculator";
-import { ChevronLeft, InfoIcon } from "lucide-react";
+import { ChevronLeft, InfoIcon, Shield, Layers } from "lucide-react";
+import { useEffect } from "react";
+import { Button } from "@/components/ui/button";
 
 export default function CalculatorPage() {
   const {
@@ -19,11 +21,22 @@ export default function CalculatorPage() {
     result,
     breakdown,
     validationErrors,
-    hasCalculated,
     setInput,
-    calculate,
     reset,
   } = useCalculator();
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (
+        e.key.toLowerCase() === "r" &&
+        document.activeElement?.tagName !== "INPUT"
+      ) {
+        reset();
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [reset]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950">
@@ -62,12 +75,13 @@ export default function CalculatorPage() {
 
       <main className="mx-auto max-w-7xl px-4 py-8">
         {/* Page title */}
-        <div className="mb-8 text-center">
+        <div className="mb-8 text-center flex flex-col items-center">
+          <Badge variant="outline" className="mb-4 bg-primary/10 text-primary border-primary/20 px-3 py-1">
+            <Shield className="w-3 h-3 mr-1.5" />
+            0 Bytes – 100% Client-side
+          </Badge>
           <h1 className="text-3xl font-bold text-foreground sm:text-4xl">
-            Goal-Based{" "}
-            <span className="text-[#224c87]">
-              SIP Calculator
-            </span>
+            Goal-Based Investment Calculator
           </h1>
           <p className="mt-2 text-muted-foreground text-sm max-w-xl mx-auto">
             Enter your financial goal details below. All assumptions are editable.
@@ -82,23 +96,28 @@ export default function CalculatorPage() {
             <GoalForm
               inputs={inputs}
               validationErrors={validationErrors}
-              hasCalculated={hasCalculated}
               onInputChange={setInput}
-              onCalculate={calculate}
               onReset={reset}
             />
-            <Disclaimer />
+            <Disclaimer className="hidden lg:block" />
           </div>
 
           {/* Right: Results */}
           {result ? (
             <div className="space-y-6 min-w-0 w-full">
+              <div className="flex justify-between items-center sm:hidden mb-2">
+                <Button variant="outline" size="sm" className="w-full text-xs" disabled>
+                  <Layers className="w-3 h-3 mr-2" />
+                  Compare Scenarios (Coming Soon)
+                </Button>
+              </div>
+
               <ResultCard result={result} inputs={inputs} />
 
               {breakdown.length > 0 && (
                 <>
                   <Charts breakdown={breakdown} result={result} />
-                  <BreakdownTable breakdown={breakdown} />
+                  <BreakdownTable breakdown={breakdown} inflationRate={inputs.inflationRate} />
                 </>
               )}
 
@@ -134,14 +153,19 @@ export default function CalculatorPage() {
       </main>
 
       {/* Footer */}
-      <footer className="mt-16 border-t border-border px-4 py-8">
+      <footer className="mt-16 border-t border-border px-4 pt-8 pb-48 lg:pb-8">
         <div className="max-w-7xl mx-auto">
-          <Disclaimer compact />
+          <Disclaimer compact className="hidden lg:block" />
           <p className="mt-3 text-xs text-muted-foreground text-center">
             © {new Date().getFullYear()} SIP Goal Planner · For educational purposes only
           </p>
         </div>
       </footer>
+
+      {/* Fixed Mobile Disclaimer */}
+      <div className="fixed bottom-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-md border-t border-border p-3 shadow-[0_-10px_20px_-10px_rgba(0,0,0,0.15)] lg:hidden">
+        <Disclaimer />
+      </div>
     </div>
   );
 }

@@ -49,27 +49,33 @@ export default function Home() {
       <section className="relative flex flex-col items-center justify-center px-4 pt-24 pb-16 text-center">
 
 
-        <Badge
-          variant="outline"
-          className="mb-6 gap-1.5 border-[#919090]/50 text-[#919090] px-4 py-1.5 text-sm"
-        >
-          <ShieldCheck className="h-3.5 w-3.5" />
-          Educational Tool · Not Financial Advice
-        </Badge>
+        <div className="text-center">
+          <Badge
+            variant="outline"
+            className="mb-6 gap-1.5 border-[#919090]/50 text-[#919090] px-4 py-1.5 text-sm"
+          >
+            <ShieldCheck className="h-3.5 w-3.5" />
+            Educational Tool · Not Financial Advice
+          </Badge>
 
-        <h1 className="max-w-3xl text-5xl font-bold tracking-tight text-white sm:text-6xl lg:text-7xl">
-          Goal-Based{" "}
-          <span className="text-[#224c87]">
-            SIP Planner
-          </span>
-        </h1>
+          <h1 className="text-6xl md:text-[4.5rem] font-bold tracking-[-0.03em] leading-none text-white">
+            Goal-Based{" "}
+            <span className="bg-gradient-to-r from-[#224c87] via-[#da3832] to-[#224c87] bg-clip-text text-transparent">
+              Investment
+            </span>{" "}
+            Calculator
+          </h1>
 
-        <p className="mt-6 max-w-2xl text-lg text-slate-400 leading-relaxed">
-          Estimate the monthly SIP investment you need to reach any financial goal,
-          factoring in <strong className="text-foreground">inflation</strong> and{" "}
-          <strong className="text-foreground">assumed returns</strong>. All assumptions
-          are fully adjustable.
-        </p>
+
+
+          {/* Improved subtitle with brand colour highlights */}
+          <p className="mt-10 max-w-2xl mx-auto text-xl text-[#919090]">
+            Estimate the monthly SIP investment you need to reach any financial goal,
+            factoring in <span className="text-[#224c87]">inflation</span> and{" "}
+            <span className="text-[#da3832]">assumed returns</span>. 
+            All assumptions are fully adjustable.
+          </p>
+        </div>
 
         <div className="mt-10 flex flex-col sm:flex-row gap-4 items-center">
           <Link
@@ -136,7 +142,7 @@ export default function Home() {
       {/* Footer with disclaimer */}
       <footer className="border-t border-slate-800 px-4 py-10">
         <div className="max-w-4xl mx-auto">
-          <Disclaimer />
+          <Disclaimer compact />
           <p className="mt-4 text-center text-xs text-slate-600">
             © {new Date().getFullYear()} SIP Goal Planner · Built for educational purposes
           </p>

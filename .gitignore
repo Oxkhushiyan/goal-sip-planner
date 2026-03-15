@@ -39,3 +39,8 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Hackathon / Planning Files
+improvements.md
+financial-validation.md
+sdd.md

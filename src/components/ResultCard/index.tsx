@@ -4,6 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Separator } from "@/components/ui/separator";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 import { AlertTriangle, Info, CircleDot, Layers, Hash, AlignLeft } from "lucide-react";
 import type { CalculatorResult, CalculatorInputs } from "@/types";
@@ -27,12 +28,14 @@ function StatBox({
   value,
   sub,
   highlight,
+  tooltipText,
 }: {
   icon: React.ElementType;
   label: string;
   value: string;
   sub?: string;
   highlight?: boolean;
+  tooltipText?: string;
 }) {
   return (
     <div
@@ -50,19 +53,37 @@ function StatBox({
         >
           <Icon className={`h-4 w-4 ${highlight ? "text-white" : "text-primary"}`} />
         </div>
-        <p
-          className={`text-xs font-semibold uppercase tracking-wider ${
-            highlight ? "text-slate-200" : "text-muted-foreground"
-          }`}
-        >
-          {label}
-        </p>
+        {tooltipText ? (
+          <TooltipProvider delay={200}>
+            <Tooltip>
+              <TooltipTrigger
+                className={`text-xs font-semibold uppercase tracking-wider cursor-help border-b border-dashed pb-0.5 ${
+                  highlight ? "text-slate-200 border-slate-400" : "text-muted-foreground border-muted-foreground/50"
+                }`}
+              >
+                {label}
+              </TooltipTrigger>
+              <TooltipContent side="top">
+                <p className="max-w-[200px] text-center leading-relaxed">{tooltipText}</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        ) : (
+          <p
+            className={`text-xs font-semibold uppercase tracking-wider ${
+              highlight ? "text-slate-200" : "text-muted-foreground"
+            }`}
+          >
+            {label}
+          </p>
+        )}
       </div>
       <p
         className={`text-xl sm:text-2xl font-bold tabular-nums ${
           highlight ? "text-white" : "text-foreground"
         }`}
         aria-live="polite"
+        role="status"
       >
         {value}
       </p>
@@ -103,7 +124,7 @@ export function ResultCard({ result, inputs }: ResultCardProps) {
             Inflation ≥ Expected Return
           </AlertTitle>
           <AlertDescription className="text-muted-foreground">
-            Your assumed inflation rate ({(inputs.inflationRate * 100).toFixed(1)}%) is greater than or equal to the expected return ({(inputs.expectedReturn * 100).toFixed(1)}%). In real terms, gains may be minimal or negative.
+            Note: When returns ≤ inflation, the goal may not be achievable in real purchasing power terms.
           </AlertDescription>
         </Alert>
       )}
@@ -135,6 +156,7 @@ export function ResultCard({ result, inputs }: ResultCardProps) {
             value={fmt(result.monthlySIP)}
             sub={`For ${inputs.yearsToGoal} year${inputs.yearsToGoal !== 1 ? "s" : ""} · ${(inputs.expectedReturn * 100).toFixed(1)}% p.a.`}
             highlight
+            tooltipText="Uses exact PMT annuity formula from hackathon brief (monthly compounding)"
           />
         </div>
         <StatBox
@@ -142,6 +164,7 @@ export function ResultCard({ result, inputs }: ResultCardProps) {
           label="Future Goal Value"
           value={fmt(result.futureValue)}
           sub={`After ${(inputs.inflationRate * 100).toFixed(1)}% inflation`}
+          tooltipText="FV = Current Cost × (1 + Inflation)^Years"
         />
         <StatBox
           icon={Layers}
@@ -157,24 +180,61 @@ export function ResultCard({ result, inputs }: ResultCardProps) {
         />
       </div>
 
-      {/* Corpus breakdown bar */}
+      {/* Assumptions Used */}
+      <details className="mt-4 p-3 border border-border/50 rounded-lg bg-muted/10 open:bg-muted/30 transition-colors">
+        <summary className="text-sm font-semibold cursor-pointer text-foreground outline-none select-none">
+          Assumptions Used
+        </summary>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-3 text-xs text-muted-foreground mt-3 pl-1">
+          <div className="flex justify-between border-b border-border/50 pb-1">
+            <span>Current Goal Cost:</span>
+            <span className="font-medium text-foreground">{fmt(inputs.goalAmount)}</span>
+          </div>
+          <div className="flex justify-between border-b border-border/50 pb-1">
+            <span>Years to Goal:</span>
+            <span className="font-medium text-foreground">{inputs.yearsToGoal}</span>
+          </div>
+          <div className="flex justify-between border-b border-border/50 pb-1">
+            <span>Expected Return:</span>
+            <span className="font-medium text-foreground">{(inputs.expectedReturn * 100).toFixed(1)}% p.a.</span>
+          </div>
+          <div className="flex justify-between border-b border-border/50 pb-1">
+            <span>Inflation Rate:</span>
+            <span className="font-medium text-foreground">{(inputs.inflationRate * 100).toFixed(1)}% p.a.</span>
+          </div>
+        </div>
+      </details>
+
       {result.totalCorpus > 0 && (
         <Card className="border-border/50 bg-card/80">
           <CardContent className="pt-4 pb-4 space-y-3">
-            <div className="flex justify-between text-xs text-muted-foreground">
-              <span>Invested · {investedPct.toFixed(0)}%</span>
-              <span>Returns · {returnsPct.toFixed(0)}%</span>
+            <div className="mt-2 space-y-4">
+            <div className="flex justify-between text-xs font-bold font-sans">
+              <span className="text-[#919090] dark:text-[#919090]">
+                Invested: {(investedPct).toFixed(1)}%
+              </span>
+              <span className="text-[#da3832] dark:text-[#da3832]">
+                Returns: {(returnsPct).toFixed(1)}%
+              </span>
             </div>
-            <div className="relative h-3 rounded-full bg-muted overflow-hidden">
+            {/* progress bar */}
+            <div
+              className="h-3 w-full rounded-full bg-muted/50 overflow-hidden flex shadow-inner"
+              role="progressbar"
+              aria-valuenow={Math.round(investedPct)}
+              aria-valuemin={0}
+              aria-valuemax={100}
+              aria-label="Corpus composition"
+            >
               <div
-                className="absolute left-0 top-0 h-full rounded-full bg-[#224c87] transition-all duration-700"
+                className="h-full bg-[#224c87] transition-all duration-700"
                 style={{ width: `${investedPct}%` }}
                 role="img"
                 aria-label={`${investedPct.toFixed(0)}% of corpus is invested amount`}
               />
               <div
-                className="absolute top-0 h-full rounded-full bg-[#919090] transition-all duration-700"
-                style={{ left: `${investedPct}%`, width: `${returnsPct}%` }}
+                className="h-full bg-[#919090] transition-all duration-700"
+                style={{ width: `${returnsPct}%` }}
                 role="img"
                 aria-label={`${returnsPct.toFixed(0)}% of corpus is returns`}
               />
@@ -197,6 +257,7 @@ export function ResultCard({ result, inputs }: ResultCardProps) {
               <Badge variant="secondary" className="text-base font-bold px-3 py-1">
                 {fmt(result.totalCorpus)}
               </Badge>
+            </div>
             </div>
           </CardContent>
         </Card>

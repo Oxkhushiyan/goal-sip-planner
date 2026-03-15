@@ -42,8 +42,7 @@ export function PDFDownloadButton({ inputs, result, breakdown }: PDFDownloadButt
     <Button
       onClick={handleDownload}
       disabled={loading}
-      variant="outline"
-      className="gap-2 border-primary/30 hover:bg-primary/10 hover:text-primary"
+      className="gap-2 bg-[#da3832] hover:bg-[#b92c27] text-white shadow-md border-none"
       aria-label="Download SIP calculation report as PDF"
     >
       {loading ? (

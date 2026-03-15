@@ -1,0 +1,4 @@
+# Ignore hackathon brief and planning files for Vercel production deployment
+improvements.md
+financial-validation.md
+sdd.md

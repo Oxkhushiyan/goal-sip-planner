@@ -2,20 +2,18 @@
 
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import * as SliderPrimitive from "@radix-ui/react-slider";
+import { Slider } from "@/components/ui/slider";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { RefreshCw, Info } from "lucide-react";
+import { RefreshCw } from "lucide-react";
 import type { CalculatorInputs, ValidationError } from "@/types";
 
 interface GoalFormProps {
   inputs: CalculatorInputs;
   validationErrors: ValidationError[];
-  hasCalculated: boolean;
   onInputChange: (field: keyof CalculatorInputs, value: number | boolean) => void;
-  onCalculate: () => void;
   onReset: () => void;
 }
 
@@ -92,9 +90,7 @@ const FIELDS: FieldConfig[] = [
 export function GoalForm({
   inputs,
   validationErrors,
-  hasCalculated,
   onInputChange,
-  onCalculate,
   onReset,
 }: GoalFormProps) {
   function getError(field: keyof CalculatorInputs) {
@@ -127,13 +123,9 @@ export function GoalForm({
       <CardHeader className="pb-4">
         <div className="flex items-center justify-between">
           <div>
-            <CardTitle className="text-xl font-bold">Your Goal</CardTitle>
+            <CardTitle className="text-xl font-bold text-foreground">Your Goal</CardTitle>
             <CardDescription>Adjust the values to match your financial goal</CardDescription>
           </div>
-          <Badge variant="outline" className="text-xs text-muted-foreground">
-            <Info className="mr-1 h-3 w-3" />
-            Illustrative only
-          </Badge>
         </div>
       </CardHeader>
       <CardContent className="space-y-6">
@@ -147,14 +139,17 @@ export function GoalForm({
               <div className="flex items-center justify-between">
                 <Label
                   htmlFor={field.id}
-                  className="text-sm font-semibold text-foreground"
+                  className="text-sm font-semibold text-foreground flex items-center gap-2"
                 >
                   {field.label}
                   {field.unit && (
-                    <span className="ml-1 text-xs font-normal text-muted-foreground">
+                    <span className="text-xs font-normal text-muted-foreground">
                       ({field.unit})
                     </span>
                   )}
+                  <Badge variant="secondary" className="px-1.5 py-0 h-5 text-[10px] font-medium bg-muted text-muted-foreground leading-tight rounded-sm font-sans flex items-center">
+                    Illustrative only
+                  </Badge>
                 </Label>
                 <span className="text-sm font-bold text-primary">
                   {field.sliderFormat(sliderVal)}
@@ -162,21 +157,20 @@ export function GoalForm({
               </div>
               <p className="text-xs text-muted-foreground">{field.description}</p>
 
-              <SliderPrimitive.Root
-                id={`${field.id}-slider`}
+              <Slider
+                id={field.id}
                 min={field.min}
                 max={field.max}
                 step={field.step}
                 value={[sliderVal]}
-                onValueChange={(v: number[]) => handleSliderChange(field, v)}
-                aria-label={field.label}
-                className="relative flex w-full touch-none items-center cursor-pointer py-1"
-              >
-                <SliderPrimitive.Track className="relative h-1.5 w-full grow overflow-hidden rounded-full bg-muted">
-                  <SliderPrimitive.Range className="absolute h-full bg-primary rounded-full" />
-                </SliderPrimitive.Track>
-                <SliderPrimitive.Thumb className="block h-4 w-4 rounded-full border-2 border-primary bg-white shadow-md ring-ring/50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50" />
-              </SliderPrimitive.Root>
+                onValueChange={(val) => {
+                  const valueArray = Array.isArray(val) ? val : [val as number];
+                  handleSliderChange(field, valueArray);
+                }}
+                className="py-2"
+                aria-label={`${field.label} slider`}
+                aria-valuetext={field.sliderFormat(sliderVal)}
+              />
 
               <div className="flex items-center gap-2">
                 <Input
@@ -214,27 +208,17 @@ export function GoalForm({
 
         <Separator />
 
-        <div className="flex flex-col sm:flex-row gap-3">
+        <div className="flex flex-col sm:flex-row gap-3 mt-8">
           <Button
-            onClick={onCalculate}
-            className="flex-1 gap-2 font-semibold bg-[#da3832] hover:bg-[#b92c27] text-white shadow-md"
+            onClick={onReset}
+            variant="outline"
             size="lg"
-            aria-label="Calculate required SIP"
+            aria-label="Reset all values to defaults"
+            className="w-full gap-2 text-muted-foreground hover:text-foreground"
           >
-            Calculate SIP
+            <RefreshCw className="h-4 w-4" />
+            Reset Defaults (Press R)
           </Button>
-          {hasCalculated && (
-            <Button
-              onClick={onReset}
-              variant="outline"
-              size="lg"
-              aria-label="Reset all values to defaults"
-              className="gap-2"
-            >
-              <RefreshCw className="h-4 w-4" />
-              Reset
-            </Button>
-          )}
         </div>
       </CardContent>
     </Card>
