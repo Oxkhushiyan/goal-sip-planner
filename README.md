@@ -3,7 +3,7 @@
 A sleek, modern, and highly-accurate SIP (Systematic Investment Plan) calculator designed to help users plan for specific financial goals.
 
 ![Demo](demo.gif)
-*(Add a short GIF showing the real-time calculations here)*
+
 
 ## 🚀 Features
 
